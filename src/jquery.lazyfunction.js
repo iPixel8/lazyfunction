@@ -10,7 +10,7 @@
 
 	var $window = $(window);
 
-	$.fn.lazyfunction = function(callbackFunc) {
+	$.fn.lazyfunction = function(callbackFunc, opts) {
 
 		var root = this;
 		var called = false;
@@ -19,6 +19,11 @@
 		var windowHeight = $window.height();
 		var scrollPos = $window.scrollTop();
 		var timer = null;
+		var settings = {
+			scrollBuffer: 200
+		}
+		
+		$.extend(settings, opts);
 
 		this.checkToCall = function() {
 
@@ -37,7 +42,7 @@
 
 			screenPos = root.offset().top;
 			
-			if (scrollPos + windowHeight > screenPos) {
+			if (scrollPos + windowHeight > screenPos - settings.scrollBuffer) {
 				called = true;
 				callback.call();
 			}
